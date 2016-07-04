@@ -38,6 +38,7 @@ public class Maze {
 		
 		sc.close();
 		
+		// チップサイズ
 		size = Math.min(Main.WINDOW_WIDTH / w / 8 * 8, Main.WINDOW_HEIGHT / h / 8 * 8);
 		
 		passed = new boolean[h][w];
@@ -45,10 +46,7 @@ public class Maze {
 		p = new Point(s);
 	}
 	
-	public void update() {
-		
-	}
-	
+	/** 描画 */
 	public void draw(Graphics2D g) {
 		int leftUpX = (Main.WINDOW_WIDTH - w * size) / 2;
 		int leftUpY = (Main.WINDOW_HEIGHT - h * size) / 2;
@@ -56,16 +54,16 @@ public class Maze {
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				switch (map[y][x]) {
-					case '0':
+					case '0': // 道
 						g.setColor(Color.LIGHT_GRAY);
 						break;
-					case '1':
+					case '1': // 壁
 						g.setColor(Color.BLACK);
 						break;
-					case 's':
+					case 's': // スタート
 						g.setColor(Color.GREEN);
 						break;
-					case 't':
+					case 't': // ゴール
 						g.setColor(Color.CYAN);
 						break;
 				}

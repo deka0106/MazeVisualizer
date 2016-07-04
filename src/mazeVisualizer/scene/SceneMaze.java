@@ -11,29 +11,50 @@ import mazeVisualizer.maze.MazeSolver;
 
 public class SceneMaze extends Scene {
 	
+	/** 背景色 */
 	private static Color backColor = Color.WHITE;
 	
+	/** 迷路の数 */
 	private static int mazeNum = 2;
+	
+	/** 現在の迷路のID */
 	private int mazeID = 0;
 	
+	/** 現在の迷路 */
 	private Maze currentMaze;
+	
+	/** 迷路Solver */
 	private MazeSolver solver;
 	
+	/**
+	 * 初期化
+	 */
 	@Override
 	public void init() {
 		setMaze(0);
 	}
 	
-	public void setMaze(int number) {
-		mazeID = number;
-		currentMaze = new Maze("maze" + (number + 1) + ".txt");
+	/**
+	 * 迷路を設定する
+	 *
+	 * @param id 設定する迷路のID
+	 */
+	public void setMaze(int id) {
+		mazeID = id;
+		currentMaze = new Maze("maze" + (id + 1) + ".txt");
 		solver = new MazeSolver(currentMaze);
 	}
 	
+	/**
+	 * 次の迷路に進む
+	 */
 	public void nextMaze() {
 		setMaze((mazeID + 1) % mazeNum);
 	}
 	
+	/**
+	 * 更新
+	 */
 	@Override
 	public void update() {
 		if (MouseManager.isPressed(MouseEvent.BUTTON1)) {
@@ -43,6 +64,9 @@ public class SceneMaze extends Scene {
 		}
 	}
 	
+	/**
+	 * 描画
+	 */
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(backColor);

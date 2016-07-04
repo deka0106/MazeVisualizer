@@ -12,22 +12,44 @@ public class MouseManager {
 		return mi;
 	}
 	
+	/**
+	 * 更新
+	 */
 	public static void update() {
 		mi.update();
 	}
 	
+	/**
+	 *
+	 * @return 現在のカーソル位置
+	 */
 	public static Point getPosition() {
 		return mi.getPosition();
 	}
 	
+	/**
+	 *
+	 * @param button マウスのボタン
+	 * @return 今押されているかどうか
+	 */
 	public static boolean isDown(int button) {
 		return mi.isDown(button);
 	}
 	
+	/**
+	 *
+	 * @param button マウスのボタン
+	 * @return たった今押されたかどうか
+	 */
 	public static boolean isPressed(int button) {
 		return mi.isPressed(button);
 	}
 	
+	/**
+	 *
+	 * @param button マウスのボタン
+	 * @return たった今離されたかどうか
+	 */
 	public static boolean isReleased(int button) {
 		return mi.isReleased(button);
 	}

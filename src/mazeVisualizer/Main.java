@@ -73,7 +73,10 @@ public class Main {
 	
 	/** 実行 */
 	private void run() {
+		// 初期化
 		init();
+		
+		// fps設定
 		int fps = 60;
 		long error = 0;
 		long idealSleep = (1000 << 16) / fps;
@@ -81,8 +84,13 @@ public class Main {
 		long currentTime = System.currentTimeMillis() << 16;
 		while (true) {
 			lastTime = currentTime;
+			
+			// 更新
 			update();
+			
+			// 描画
 			draw();
+			
 			currentTime = System.currentTimeMillis() << 16;
 			long sleepTime = idealSleep - (currentTime - lastTime) - error;
 			if (sleepTime < (2 << 16)) sleepTime = (2 << 16);

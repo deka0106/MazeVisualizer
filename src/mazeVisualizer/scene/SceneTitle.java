@@ -18,10 +18,9 @@ public class SceneTitle extends Scene {
 	
 	private static BufferedImage buri = ImageManager.getImage("buri.png");
 	
-	@Override
-	public void init() {
-	}
-	
+	/**
+	 * 更新
+	 */
 	@Override
 	public void update() {
 		if (MouseManager.isPressed(MouseEvent.BUTTON1)) {
@@ -30,11 +29,16 @@ public class SceneTitle extends Scene {
 		}
 	}
 	
+	/**
+	 * 描画
+	 */
 	@Override
 	public void draw(Graphics2D g) {
+		// 背景
 		g.setColor(backColor);
 		g.fillRect(0, 0, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
 		
+		// 鰤
 		g.drawImage(buri, (Main.WINDOW_WIDTH - buri.getWidth()) / 2, 100, null);
 		
 		g.setColor(Color.BLACK);

@@ -6,13 +6,21 @@ import java.util.Deque;
 
 public class MazeSolver {
 	
+	/** 移動用定数 */
 	private static final int[] dx = { 1, -1, 0, 0 };
 	private static final int[] dy = { 0, 0, 1, -1 };
 	
+	/** 迷路 */
 	private Maze maze;
 	
+	/** スタック */
 	private Deque<Point> stack;
 	
+	/**
+	 * コンストラクタ
+	 *
+	 * @param maze 迷路
+	 */
 	public MazeSolver(Maze maze) {
 		this.maze = maze;
 		
@@ -22,6 +30,11 @@ public class MazeSolver {
 		stack.push(maze.p);
 	}
 	
+	/**
+	 * 次のステップに進む
+	 *
+	 * @return 通常:0, ゴール:1, ゴール不可:-1
+	 */
 	public int nextStep() {
 		if (!stack.isEmpty()) {
 			maze.p = stack.pop();
@@ -40,6 +53,7 @@ public class MazeSolver {
 			}
 			return 0;
 		}
+		// stackが空→もう行ける場所がない
 		return -1;
 	}
 	

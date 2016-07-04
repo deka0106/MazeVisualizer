@@ -10,7 +10,8 @@ public abstract class Scene {
 	private static Scene currentScene = null;
 	
 	/** 初期化 */
-	public abstract void init();
+	public void init() {
+	}
 	
 	/** 描画 */
 	public abstract void update();
