@@ -60,58 +60,53 @@ class MouseInput extends MouseAdapter {
 	
 	private static final int BUTTON_NUMBER = 3;
 	
+	private Point lastPos;
 	private Point currentPos;
-	private Point nextPos;
 	
 	private boolean[] lastMouse;
 	private boolean[] currentMouse;
-	private boolean[] nextMouse;
 	
-	public MouseInput() {
+	MouseInput() {
+		lastPos = new Point(0, 0);
 		currentPos = new Point(0, 0);
-		nextPos = new Point(0, 0);
 		lastMouse = new boolean[BUTTON_NUMBER];
 		currentMouse = new boolean[BUTTON_NUMBER];
-		nextMouse = new boolean[BUTTON_NUMBER];
 	}
 	
-	public void update() {
-		currentPos = new Point(nextPos);
-		for (int i = 0; i < BUTTON_NUMBER; i++) {
-			lastMouse[i] = currentMouse[i];
-			currentMouse[i] = nextMouse[i];
-		}
+	void update() {
+		lastPos = new Point(currentPos);
+		lastMouse = currentMouse.clone();
 	}
 	
-	public Point getPosition() {
-		return currentPos;
+	Point getPosition() {
+		return lastPos;
 	}
 	
-	public boolean isDown(int button) {
+	boolean isDown(int button) {
 		return currentMouse[button - 1];
 	}
 	
-	public boolean isPressed(int button) {
+	boolean isPressed(int button) {
 		return !lastMouse[button - 1] && currentMouse[button - 1];
 	}
 	
-	public boolean isReleased(int button) {
+	boolean isReleased(int button) {
 		return lastMouse[button - 1] && !currentMouse[button - 1];
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		nextMouse[e.getButton() - 1] = true;
+		currentMouse[e.getButton() - 1] = true;
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		nextMouse[e.getButton() - 1] = false;
+		currentMouse[e.getButton() - 1] = false;
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		nextPos = e.getPoint();
+		currentPos = e.getPoint();
 	}
 	
 }

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 import mazeVisualizer.graphic.ImageManager;
+import mazeVisualizer.input.KeyManager;
 import mazeVisualizer.input.MouseManager;
 import mazeVisualizer.scene.Scene;
 import mazeVisualizer.scene.SceneTitle;
@@ -52,6 +53,7 @@ public class Main {
 		
 		window.setLocationRelativeTo(null);
 		
+		window.addKeyListener(KeyManager.getListener());
 		window.addMouseListener(MouseManager.getListener());
 		window.addMouseMotionListener(MouseManager.getListener());
 		
@@ -64,7 +66,7 @@ public class Main {
 		/* 画像読み込み */
 		ImageManager.init();
 		String[] imgItems = {
-				"buri"
+				"sci"
 		};
 		for (int i = 0; i < imgItems.length; i++) {
 			ImageManager.loadImage(imgItems[i] + ".png");
@@ -107,8 +109,9 @@ public class Main {
 	
 	/** 更新 */
 	private void update() {
-		MouseManager.update();
 		Scene.getCurrentScene().update();
+		KeyManager.update();
+		MouseManager.update();
 	}
 	
 	/** 描画 */
