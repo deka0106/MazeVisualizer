@@ -1,11 +1,11 @@
 package mazeVisualizer.scene;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 
 import mazeVisualizer.Main;
-import mazeVisualizer.input.MouseManager;
+import mazeVisualizer.input.KeyManager;
 import mazeVisualizer.maze.Maze;
 import mazeVisualizer.maze.MazeSolver;
 
@@ -13,6 +13,9 @@ public class SceneMaze extends Scene {
 	
 	/** 背景色 */
 	private static Color backColor = Color.WHITE;
+	
+	/** ゴール */
+	private static Font goalFont = new Font(Font.MONOSPACED, Font.PLAIN, 120);
 	
 	/** 迷路の数 */
 	private static int mazeNum = 2;
@@ -25,6 +28,9 @@ public class SceneMaze extends Scene {
 	
 	/** 迷路Solver */
 	private MazeSolver solver;
+	
+	/** 迷路ゴール */
+	private boolean goalFlag = false;
 	
 	/**
 	 * 初期化
@@ -57,9 +63,14 @@ public class SceneMaze extends Scene {
 	 */
 	@Override
 	public void update() {
-		if (MouseManager.isPressed(MouseEvent.BUTTON1)) {
-			if (solver.nextStep() == 1) {
+		if (KeyManager.isPressed(KeyManager.Key.DECIDE)) {
+			if (goalFlag) {
+				goalFlag = false;
 				nextMaze();
+			}
+			
+			if (solver.nextStep() == 1) {
+				goalFlag = true;
 			}
 		}
 	}
@@ -73,6 +84,12 @@ public class SceneMaze extends Scene {
 		g.fillRect(0, 0, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
 		
 		currentMaze.draw(g);
+		
+		if (goalFlag) {
+			g.setColor(Color.RED);
+			g.setFont(goalFont);
+			g.drawString("ゴール", 220, 300);
+		}
 	}
 	
 }
