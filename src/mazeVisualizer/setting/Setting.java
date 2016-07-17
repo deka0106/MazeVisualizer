@@ -19,6 +19,7 @@ public class Setting {
 	// デフォルトキー
 	public static final int DEFAULT_KEY_DECIDE = KeyEvent.VK_ENTER;
 	public static final int DEFAULT_KEY_CANCEL = KeyEvent.VK_BACK_SPACE;
+	public static final int DEFAULT_KEY_OPTION = KeyEvent.VK_SPACE;
 	public static final int DEFAULT_KEY_UP = KeyEvent.VK_UP;
 	public static final int DEFAULT_KEY_DOWN = KeyEvent.VK_DOWN;
 	public static final int DEFAULT_KEY_LEFT = KeyEvent.VK_LEFT;

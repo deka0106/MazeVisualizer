@@ -34,7 +34,8 @@ public class Maze {
 	/** マップチップの大きさ */
 	int size;
 	
-	/** 視界を狭めるかどうか */
+	/** プレイヤー周りを暗くするかどうか */
+	private static boolean shadowFlag = true;
 	
 	/** プレイヤーの視界の半径 */
 	float viewRadius;
@@ -92,7 +93,7 @@ public class Maze {
 		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
 		
 		// 視界
-		viewRadius = size * 2;
+		viewRadius = size * 5;
 		
 		// 左上座標
 		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
@@ -167,7 +168,7 @@ public class Maze {
 		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
 		
 		// 視界
-		viewRadius = size * 2;
+		viewRadius = size * 5;
 		
 		// 左上座標
 		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
@@ -206,7 +207,7 @@ public class Maze {
 		
 		drawPlayer(g);
 		
-		// drawShadow(g);
+		if (shadowFlag) drawShadow(g);
 		
 	}
 	
@@ -241,5 +242,12 @@ public class Maze {
 		g.setPaint(rgp);
 		g.fillRect(0, 0, Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT);
 		
+	}
+	
+	/**
+	 * プレイヤーの周りを暗くするかを変更
+	 */
+	public static void changeShadowFlag() {
+		shadowFlag = !shadowFlag;
 	}
 }

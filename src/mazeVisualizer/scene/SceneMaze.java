@@ -37,7 +37,7 @@ public class SceneMaze extends Scene {
 	 */
 	@Override
 	public void init() {
-		setMaze(21, 15);
+		setMaze(91, 71);
 	}
 	
 	/**
@@ -83,6 +83,9 @@ public class SceneMaze extends Scene {
 			if (solver.nextStep() == 1) {
 				goalFlag = true;
 			}
+		}
+		if (KeyManager.isPressed(KeyManager.Key.OPTION)) {
+			Maze.changeShadowFlag();
 		}
 	}
 	
