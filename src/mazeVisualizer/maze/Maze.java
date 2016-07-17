@@ -7,7 +7,6 @@ import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.Scanner;
 
 import mazeVisualizer.setting.Setting;
 
@@ -88,81 +87,6 @@ public class Maze {
 		
 		// プレイヤー
 		p = new Point(1, 0);
-		
-		// チップサイズ
-		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
-		
-		// 視界
-		viewRadius = size * 5;
-		
-		// 左上座標
-		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
-		leftUpY = (Setting.WINDOW_HEIGHT - h * size) / 2;
-		
-		mapImage = new BufferedImage(Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = (Graphics2D) mapImage.getGraphics();
-		
-		for (int y = 0; y < h; y++) {
-			for (int x = 0; x < w; x++) {
-				switch (map[y][x]) {
-					case ROAD: // 道
-						break;
-					case WALL: // 壁
-						g.setColor(Color.DARK_GRAY);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
-						break;
-					case START: // スタート
-						g.setColor(Color.GREEN);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
-						break;
-					case GOAL: // ゴール
-						g.setColor(Color.CYAN);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
-						break;
-				}
-			}
-		}
-		g.dispose();
-	}
-	
-	/**
-	 * 迷路生成(ファイル入力)
-	 *
-	 * @param path マップデータのパス
-	 */
-	public Maze(String path) {
-		Scanner sc = new Scanner(Setting.class.getClassLoader().getResourceAsStream("res/maze/" + path));
-		
-		// マップサイズ
-		h = sc.nextInt();
-		w = sc.nextInt();
-		
-		// マップ初期化
-		map = new int[h][w];
-		for (int y = 0; y < h; y++) {
-			char[] charArray = sc.next().toCharArray();
-			for (int x = 0; x < w; x++) {
-				switch (charArray[x]) {
-					case '0':
-						map[y][x] = ROAD;
-						break;
-					case '1':
-						map[y][x] = WALL;
-						break;
-					case 's':
-						map[y][x] = START;
-						p = new Point(x, y);
-						break;
-					case 't':
-						map[y][x] = GOAL;
-						break;
-				}
-			}
-		}
-		sc.close();
-		
-		// 初期化
-		passed = new boolean[h][w];
 		
 		// チップサイズ
 		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);

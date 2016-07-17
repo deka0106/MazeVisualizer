@@ -17,12 +17,6 @@ public class SceneMaze extends Scene {
 	/** ゴール */
 	private static Font goalFont = new Font(Font.MONOSPACED, Font.PLAIN, 120);
 	
-	/** 迷路の数 */
-	private static int mazeNum = 2;
-	
-	/** 現在の迷路のID */
-	private int mazeID = 0;
-	
 	/** 現在の迷路 */
 	private Maze currentMaze;
 	
@@ -43,17 +37,6 @@ public class SceneMaze extends Scene {
 	/**
 	 * 迷路を設定する
 	 *
-	 * @param id 設定する迷路のID
-	 */
-	public void setMaze(int id) {
-		mazeID = id;
-		currentMaze = new Maze("maze" + (id + 1) + ".txt");
-		solver = new MazeSolver(currentMaze);
-	}
-	
-	/**
-	 * 迷路を設定する
-	 *
 	 * @param w 幅
 	 * @param h 高
 	 */
@@ -66,7 +49,7 @@ public class SceneMaze extends Scene {
 	 * 次の迷路に進む
 	 */
 	public void nextMaze() {
-		setMaze(21, 15);
+		setMaze(91, 71);
 	}
 	
 	/**
