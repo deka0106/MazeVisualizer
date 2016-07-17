@@ -37,7 +37,7 @@ public class SceneMaze extends Scene {
 	 */
 	@Override
 	public void init() {
-		setMaze(0);
+		setMaze(21, 15);
 	}
 	
 	/**
@@ -52,10 +52,21 @@ public class SceneMaze extends Scene {
 	}
 	
 	/**
+	 * 迷路を設定する
+	 *
+	 * @param w 幅
+	 * @param h 高
+	 */
+	public void setMaze(int w, int h) {
+		currentMaze = new Maze(w, h);
+		solver = new MazeSolver(currentMaze);
+	}
+	
+	/**
 	 * 次の迷路に進む
 	 */
 	public void nextMaze() {
-		setMaze((mazeID + 1) % mazeNum);
+		setMaze(21, 15);
 	}
 	
 	/**

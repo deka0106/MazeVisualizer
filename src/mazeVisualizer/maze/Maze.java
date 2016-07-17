@@ -13,6 +13,12 @@ import mazeVisualizer.setting.Setting;
 
 public class Maze {
 	
+	/* マップ要素 */
+	static final int ROAD = 0;
+	static final int WALL = 1;
+	static final int START = 2;
+	static final int GOAL = 3;
+	
 	/** マップの幅 */
 	int w;
 	
@@ -28,26 +34,95 @@ public class Maze {
 	/** マップチップの大きさ */
 	int size;
 	
+	/** 視界を狭めるかどうか */
+	
 	/** プレイヤーの視界の半径 */
 	float viewRadius;
 	
 	/** マップデータ */
-	char[][] map;
+	int[][] map;
 	
 	/** 通過済みどうか */
 	boolean[][] passed;
-	
-	/** スタート地点 */
-	Point s;
-	
-	/** ゴール地点 */
-	Point t;
 	
 	/** プレイヤー地点 */
 	Point p;
 	
 	/** マップ全体の画像 */
 	BufferedImage mapImage;
+	
+	/**
+	 * 迷路生成
+	 *
+	 * @param mapW マップ幅
+	 * @param mapH マップ高
+	 */
+	public Maze(int mapW, int mapH) {
+		
+		// 大きさ調整
+		if (mapW < 5) {
+			System.out.println("幅5以上でない場合生成不可");
+			mapW = 5;
+		} else if (mapW % 2 == 0) {
+			System.out.println("奇数幅でない場合生成不可");
+			mapW++;
+		}
+		if (mapH < 5) {
+			System.out.println("高さ5以上でない場合生成不可");
+			mapH = 5;
+		} else if (mapH % 2 == 0) {
+			System.out.println("奇数高でない場合生成不可");
+			mapH++;
+		}
+		
+		// マップサイズ
+		w = mapW;
+		h = mapH;
+		
+		// マップ生成
+		map = MapMaker.makeMap(w, h);
+		
+		// 初期化
+		passed = new boolean[h][w];
+		
+		// プレイヤー
+		p = new Point(1, 0);
+		
+		// チップサイズ
+		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
+		
+		// 視界
+		viewRadius = size * 2;
+		
+		// 左上座標
+		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
+		leftUpY = (Setting.WINDOW_HEIGHT - h * size) / 2;
+		
+		mapImage = new BufferedImage(Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = (Graphics2D) mapImage.getGraphics();
+		
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				switch (map[y][x]) {
+					case ROAD: // 道
+						break;
+					case WALL: // 壁
+						g.setColor(Color.DARK_GRAY);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+					case START: // スタート
+						g.setColor(Color.GREEN);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+					case GOAL: // ゴール
+						g.setColor(Color.CYAN);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+				}
+			}
+		}
+		g.dispose();
+	}
 	
 	/**
 	 * 迷路生成(ファイル入力)
@@ -62,16 +137,23 @@ public class Maze {
 		w = sc.nextInt();
 		
 		// マップ初期化
-		map = new char[h][w];
+		map = new int[h][w];
 		for (int y = 0; y < h; y++) {
-			map[y] = sc.next().toCharArray();
+			char[] charArray = sc.next().toCharArray();
 			for (int x = 0; x < w; x++) {
-				switch (map[y][x]) {
+				switch (charArray[x]) {
+					case '0':
+						map[y][x] = ROAD;
+						break;
+					case '1':
+						map[y][x] = WALL;
+						break;
 					case 's':
-						s = new Point(x, y);
+						map[y][x] = START;
+						p = new Point(x, y);
 						break;
 					case 't':
-						t = new Point(x, y);
+						map[y][x] = GOAL;
 						break;
 				}
 			}
@@ -80,9 +162,6 @@ public class Maze {
 		
 		// 初期化
 		passed = new boolean[h][w];
-		
-		// プレイヤー位置
-		p = new Point(s);
 		
 		// チップサイズ
 		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
@@ -94,6 +173,30 @@ public class Maze {
 		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
 		leftUpY = (Setting.WINDOW_HEIGHT - h * size) / 2;
 		
+		mapImage = new BufferedImage(Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = (Graphics2D) mapImage.getGraphics();
+		
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				switch (map[y][x]) {
+					case ROAD: // 道
+						break;
+					case WALL: // 壁
+						g.setColor(Color.DARK_GRAY);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+					case START: // スタート
+						g.setColor(Color.GREEN);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+					case GOAL: // ゴール
+						g.setColor(Color.CYAN);
+						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						break;
+				}
+			}
+		}
+		g.dispose();
 	}
 	
 	/** 描画 */
@@ -103,32 +206,22 @@ public class Maze {
 		
 		drawPlayer(g);
 		
-		drawShadow(g);
+		// drawShadow(g);
 		
 	}
 	
 	private void drawMap(Graphics2D g) {
+		// 背景
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, mapImage.getWidth(), mapImage.getHeight());
 		
+		g.drawImage(mapImage, 0, 0, null);
+		g.setColor(new Color(255, 0, 0, 50));
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
-				switch (map[y][x]) {
-					case '0': // 道
-						g.setColor(Color.LIGHT_GRAY);
-						break;
-					case '1': // 壁
-						g.setColor(Color.DARK_GRAY);
-						break;
-					case 's': // スタート
-						g.setColor(Color.GREEN);
-						break;
-					case 't': // ゴール
-						g.setColor(Color.CYAN);
-						break;
+				if (passed[y][x]) {
+					g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
 				}
-				g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
-				
-				g.setColor(new Color(255, 0, 0, 50));
-				if (passed[y][x]) g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
 			}
 		}
 	}
