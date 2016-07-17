@@ -8,6 +8,10 @@ public class MouseManager {
 	
 	private static MouseInput mi = new MouseInput();
 	
+	/**
+	 *
+	 * @return MouseAdapter
+	 */
 	public static MouseAdapter getListener() {
 		return mi;
 	}

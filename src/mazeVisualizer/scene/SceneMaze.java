@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import mazeVisualizer.Main;
 import mazeVisualizer.input.KeyManager;
 import mazeVisualizer.maze.Maze;
 import mazeVisualizer.maze.MazeSolver;
+import mazeVisualizer.setting.Setting;
 
 public class SceneMaze extends Scene {
 	
@@ -81,7 +81,7 @@ public class SceneMaze extends Scene {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(backColor);
-		g.fillRect(0, 0, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
+		g.fillRect(0, 0, Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT);
 		
 		currentMaze.draw(g);
 		

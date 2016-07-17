@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import mazeVisualizer.Main;
 import mazeVisualizer.input.KeyManager;
+import mazeVisualizer.setting.Setting;
 
 public class SceneTitle extends Scene {
 	
@@ -31,7 +31,7 @@ public class SceneTitle extends Scene {
 	public void draw(Graphics2D g) {
 		// 背景
 		g.setColor(backColor);
-		g.fillRect(0, 0, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
+		g.fillRect(0, 0, Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT);
 		
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);

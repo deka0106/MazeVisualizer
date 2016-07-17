@@ -24,8 +24,6 @@ public class MazeSolver {
 	public MazeSolver(Maze maze) {
 		this.maze = maze;
 		
-		maze.p = new Point(maze.s);
-		
 		stack = new ArrayDeque<>();
 		stack.push(maze.p);
 	}

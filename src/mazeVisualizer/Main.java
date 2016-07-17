@@ -11,17 +11,9 @@ import mazeVisualizer.input.KeyManager;
 import mazeVisualizer.input.MouseManager;
 import mazeVisualizer.scene.Scene;
 import mazeVisualizer.scene.SceneTitle;
+import mazeVisualizer.setting.Setting;
 
 public class Main {
-	
-	/** タイトル */
-	public static final String TITLE = "迷路";
-	
-	/** ウィンドウ幅 */
-	public static final int WINDOW_WIDTH = 800;
-	
-	/** ウィンドウ高 */
-	public static final int WINDOW_HEIGHT = 600;
 	
 	/** ウィンドウ */
 	private JFrame window;
@@ -44,9 +36,9 @@ public class Main {
 	
 	/** ウィンドウ初期化 */
 	private void initWindow() {
-		window = new JFrame(TITLE);
+		window = new JFrame(Setting.WINDOW_TITLE);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		window.getContentPane().setPreferredSize(new Dimension(Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT));
 		window.setResizable(false);
 		window.setVisible(true);
 		window.pack();
@@ -57,7 +49,7 @@ public class Main {
 		window.addMouseListener(MouseManager.getListener());
 		window.addMouseMotionListener(MouseManager.getListener());
 		
-		buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		buffer = new BufferedImage(Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	}
 	
 	/** リソース読み込み */
@@ -117,7 +109,7 @@ public class Main {
 	/** 描画 */
 	private void draw() {
 		Graphics2D g = buffer.createGraphics();
-		g.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		g.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
 		
 		/* 描画処理 */
 		Scene.getCurrentScene().draw(g);
