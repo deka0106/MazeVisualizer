@@ -4,19 +4,26 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import mazeVisualizer.graphic.ImageManager;
 import mazeVisualizer.setting.Setting;
 
 public class Maze {
+	
+	private static final int[] dx = { 0, 1, 0, -1 };
+	private static final int[] dy = { -1, 0, 1, 0 };
 	
 	/* マップ要素 */
 	static final int ROAD = 0;
 	static final int WALL = 1;
 	static final int START = 2;
 	static final int GOAL = 3;
+	
+	static BufferedImage[] mapImg = ImageManager.getSplitImages("map.png");
+	static BufferedImage[] sgImg = ImageManager.getSplitImages("sg.png");
+	static BufferedImage playerImg = ImageManager.getImage("player.png");
 	
 	/** マップの幅 */
 	int w;
@@ -89,10 +96,10 @@ public class Maze {
 		p = new Point(1, 0);
 		
 		// チップサイズ
-		size = Math.min(Setting.WINDOW_WIDTH / w / 4 * 4, Setting.WINDOW_HEIGHT / h / 4 * 4);
+		size = Math.min(Setting.WINDOW_WIDTH / w / 16 * 16, Setting.WINDOW_HEIGHT / h / 16 * 16);
 		
 		// 視界
-		viewRadius = size * 5;
+		viewRadius = size * 4;
 		
 		// 左上座標
 		leftUpX = (Setting.WINDOW_WIDTH - w * size) / 2;
@@ -107,16 +114,21 @@ public class Maze {
 					case ROAD: // 道
 						break;
 					case WALL: // 壁
-						g.setColor(Color.DARK_GRAY);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						int imgIndex = 0;
+						for (int i = 0; i < 4; i++) {
+							int xx = x + dx[i];
+							int yy = y + dy[i];
+							if (0 <= xx && xx < w && 0 <= yy && yy < h && map[yy][xx] == WALL) {
+								imgIndex += (1 << i);
+							}
+						}
+						g.drawImage(mapImg[imgIndex], leftUpX + size * x, leftUpY + size * y, size, size, null);
 						break;
 					case START: // スタート
-						g.setColor(Color.GREEN);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						g.drawImage(sgImg[0], leftUpX + size * x, leftUpY + size * y, size, size, null);
 						break;
 					case GOAL: // ゴール
-						g.setColor(Color.CYAN);
-						g.fillRect(leftUpX + size * x, leftUpY + size * y, size, size);
+						g.drawImage(sgImg[1], leftUpX + size * x, leftUpY + size * y, size, size, null);
 						break;
 				}
 			}
@@ -137,7 +149,7 @@ public class Maze {
 	
 	private void drawMap(Graphics2D g) {
 		// 背景
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(new Color(120, 180, 40));
 		g.fillRect(0, 0, mapImage.getWidth(), mapImage.getHeight());
 		
 		g.drawImage(mapImage, 0, 0, null);
@@ -152,10 +164,7 @@ public class Maze {
 	}
 	
 	private void drawPlayer(Graphics2D g) {
-		g.setColor(Color.ORANGE);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.fillOval(leftUpX + size * p.x, leftUpY + size * p.y, size, size);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.drawImage(playerImg, leftUpX + size * p.x, leftUpY + size * p.y, size, size, null);
 	}
 	
 	private void drawShadow(Graphics2D g) {

@@ -1,9 +1,11 @@
 package mazeVisualizer.scene;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
+import mazeVisualizer.Main;
+import mazeVisualizer.graphic.ImageManager;
 import mazeVisualizer.input.KeyManager;
 import mazeVisualizer.maze.Maze;
 import mazeVisualizer.maze.MazeSolver;
@@ -15,7 +17,7 @@ public class SceneMaze extends Scene {
 	private static Color backColor = Color.WHITE;
 	
 	/** ゴール */
-	private static Font goalFont = new Font(Font.MONOSPACED, Font.PLAIN, 120);
+	private static BufferedImage goalImg = ImageManager.getImage("goal.png");
 	
 	/** 現在の迷路 */
 	private Maze currentMaze;
@@ -26,12 +28,17 @@ public class SceneMaze extends Scene {
 	/** 迷路ゴール */
 	private boolean goalFlag = false;
 	
+	private int frameCount = 0;
+	
+	private boolean autoMode = false;
+	
 	/**
 	 * 初期化
 	 */
 	@Override
 	public void init() {
-		setMaze(91, 71);
+		Main.setTitle("迷路" + " [Enter:ゴール後次マップ, L:視界切り替え, A:自動, N:スキップ]");
+		setMaze(39, 21);
 	}
 	
 	/**
@@ -49,7 +56,7 @@ public class SceneMaze extends Scene {
 	 * 次の迷路に進む
 	 */
 	public void nextMaze() {
-		setMaze(91, 71);
+		setMaze(39, 21);
 	}
 	
 	/**
@@ -57,19 +64,33 @@ public class SceneMaze extends Scene {
 	 */
 	@Override
 	public void update() {
-		if (KeyManager.isPressed(KeyManager.Key.DECIDE)) {
-			if (goalFlag) {
+		if (goalFlag) {
+			if ((autoMode && frameCount % 100 == 0) || KeyManager.isPressed(KeyManager.Key.DECIDE)) {
 				goalFlag = false;
 				nextMaze();
+				frameCount = 0;
 			}
-			
-			if (solver.nextStep() == 1) {
-				goalFlag = true;
+		} else {
+			if (KeyManager.isPressed(KeyManager.Key.LIGHT)) {
+				Maze.changeShadowFlag();
+			}
+			if (KeyManager.isPressed(KeyManager.Key.AUTO)) {
+				autoMode = !autoMode;
+			}
+			if (KeyManager.isDown(KeyManager.Key.NEXT)) {
+				if (solver.nextStep() == 1) {
+					goalFlag = true;
+					frameCount = 0;
+				}
+			} else if (autoMode && frameCount % 10 == 0) {
+				if (solver.nextStep() == 1) {
+					goalFlag = true;
+				}
+				frameCount = 0;
 			}
 		}
-		if (KeyManager.isPressed(KeyManager.Key.OPTION)) {
-			Maze.changeShadowFlag();
-		}
+		
+		frameCount++;
 	}
 	
 	/**
@@ -83,9 +104,7 @@ public class SceneMaze extends Scene {
 		currentMaze.draw(g);
 		
 		if (goalFlag) {
-			g.setColor(Color.RED);
-			g.setFont(goalFont);
-			g.drawString("ゴール", 220, 300);
+			g.drawImage(goalImg, 0, 0, null);
 		}
 	}
 	

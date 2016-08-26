@@ -7,8 +7,8 @@ import java.util.Deque;
 public class MazeSolver {
 	
 	/** 移動用定数 */
-	private static final int[] dx = { -1, 0, 1, 0 };
-	private static final int[] dy = { 0, -1, 0, 1 };
+	private static final int[] dx = { 0, 1, 0, -1 };
+	private static final int[] dy = { 1, 0, -1, 0 };
 	
 	/** 迷路 */
 	private Maze maze;
@@ -35,11 +35,12 @@ public class MazeSolver {
 	 */
 	public int nextStep() {
 		if (!stack.isEmpty()) {
-			maze.p = stack.pop();
+			maze.p = stack.getFirst();
 			maze.passed[maze.p.y][maze.p.x] = true;
 			
 			if (maze.map[maze.p.y][maze.p.x] == Maze.GOAL) return 1;
 			
+			boolean flag = true;
 			for (int i = 0; i < 4; i++) {
 				int nx = maze.p.x + dx[i];
 				int ny = maze.p.y + dy[i];
@@ -47,8 +48,11 @@ public class MazeSolver {
 						&& maze.map[ny][nx] != Maze.WALL
 						&& !maze.passed[ny][nx]) {
 					stack.push(new Point(nx, ny));
+					flag = false;
+					break;
 				}
 			}
+			if (flag) stack.removeFirst();
 			return 0;
 		}
 		// stackが空→もう行ける場所がない

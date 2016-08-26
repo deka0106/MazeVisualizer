@@ -16,10 +16,10 @@ import mazeVisualizer.setting.Setting;
 public class Main {
 	
 	/** ウィンドウ */
-	private JFrame window;
+	private static JFrame window;
 	
 	/** ダブルバッファリング用 */
-	private BufferedImage buffer;
+	private static BufferedImage buffer;
 	
 	/** 初期化 */
 	private void init() {
@@ -58,11 +58,14 @@ public class Main {
 		/* 画像読み込み */
 		ImageManager.init();
 		String[] imgItems = {
-				"sci"
+				"title", "goal", "player"
 		};
 		for (int i = 0; i < imgItems.length; i++) {
 			ImageManager.loadImage(imgItems[i] + ".png");
 		}
+		
+		ImageManager.loadSplitImages("map.png", 16, 16);
+		ImageManager.loadSplitImages("sg.png", 32, 32);
 	}
 	
 	/** 実行 */
@@ -121,6 +124,10 @@ public class Main {
 	/** メイン */
 	public static void main(String[] args) {
 		new Main().run();
+	}
+	
+	public static void setTitle(String title) {
+		window.setTitle(title);
 	}
 	
 }

@@ -22,14 +22,16 @@ public class KeyManager {
 	 * 使用するキーの種類
 	 */
 	public static enum Key {
-		DECIDE, CANCEL, OPTION, UP, DOWN, LEFT, RIGHT
+		DECIDE, CANCEL, LIGHT, NEXT, AUTO, UP, DOWN, LEFT, RIGHT
 	}
 	
 	private static HashMap<Key, Integer> keyMap = new HashMap<>();
 	static {
 		keyMap.put(Key.DECIDE, Setting.DEFAULT_KEY_DECIDE);
 		keyMap.put(Key.CANCEL, Setting.DEFAULT_KEY_CANCEL);
-		keyMap.put(Key.OPTION, Setting.DEFAULT_KEY_OPTION);
+		keyMap.put(Key.LIGHT, Setting.DEFAULT_KEY_LIGHT);
+		keyMap.put(Key.NEXT, Setting.DEFAULT_KEY_NEXT);
+		keyMap.put(Key.AUTO, Setting.DEFAULT_KEY_AUTO);
 		keyMap.put(Key.UP, Setting.DEFAULT_KEY_UP);
 		keyMap.put(Key.DOWN, Setting.DEFAULT_KEY_DOWN);
 		keyMap.put(Key.LEFT, Setting.DEFAULT_KEY_LEFT);

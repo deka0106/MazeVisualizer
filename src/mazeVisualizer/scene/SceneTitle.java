@@ -1,17 +1,20 @@
 package mazeVisualizer.scene;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 
+import mazeVisualizer.Main;
+import mazeVisualizer.graphic.ImageManager;
 import mazeVisualizer.input.KeyManager;
-import mazeVisualizer.setting.Setting;
 
 public class SceneTitle extends Scene {
 	
-	private static Color backColor = new Color(255, 255, 255);
-	private static Font titleFont = new Font(Font.MONOSPACED, Font.PLAIN, 80);
+	private static BufferedImage titleImg = ImageManager.getImage("title.png");
+	
+	@Override
+	public void init() {
+		Main.setTitle("迷路" + " [Enter:スタート]");
+	}
 	
 	/**
 	 * 更新
@@ -30,14 +33,7 @@ public class SceneTitle extends Scene {
 	@Override
 	public void draw(Graphics2D g) {
 		// 背景
-		g.setColor(backColor);
-		g.fillRect(0, 0, Setting.WINDOW_WIDTH, Setting.WINDOW_HEIGHT);
-		
-		g.setColor(Color.BLACK);
-		g.setFont(titleFont);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.drawString("深さ優先探索", 160, 300);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.drawImage(titleImg, 0, 0, null);
 	}
 	
 }

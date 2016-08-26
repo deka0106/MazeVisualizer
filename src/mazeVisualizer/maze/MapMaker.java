@@ -73,7 +73,7 @@ public class MapMaker {
 				int direction = rand.nextInt(4);
 				int tmp = direction;
 				
-				while (direction != (++tmp) % 4) {
+				do {
 					
 					if (tmp % 4 == 0) { // 上
 						if (2 < y && map[y - 2][x] != Maze.WALL) {
@@ -113,7 +113,7 @@ public class MapMaker {
 						}
 					}
 					
-				}
+				} while (direction != (++tmp) % 4);
 				
 			}
 		}
